@@ -32,7 +32,8 @@ export function Pool({ src = "", className = "", rings = 3, delay = 0 }: { src?:
       ) : (
         <div className="absolute inset-0 rounded-[50%] bg-[radial-gradient(closest-side,rgb(220_232_238/0.85),rgb(196_214_224/0.55)_45%,rgb(196_214_224/0.18)_75%,transparent)] shadow-[inset_0_6px_14px_rgb(255_255_255/0.7)]" />
       )}
-      <Ripples className="absolute inset-[12%_8%]" rings={rings} delay={delay} />
+      {/* The painted pool already has its own ripples: one soft living ring on top is enough. */}
+      <Ripples className="absolute inset-[12%_8%]" rings={src ? 1 : rings} delay={delay} />
     </div>
   );
 }
