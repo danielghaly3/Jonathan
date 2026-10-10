@@ -1,0 +1,183 @@
+@import "tailwindcss";
+
+:root,
+[data-theme="light"] {
+  /* Heavenly layout in the parchment palette (v9): warm ivory light, antique gold, muted burgundy. */
+  --bg: #f3ece0;
+  --bg-tint: #ece2d0;
+  --panel: #faf5eb;
+  --ink: #3b302b;
+  --ink-soft: #6a5d55;
+  --gold: #a8843f;
+  --gold-ink: #7e6129;
+  --blue: #9fb4c5;
+  --blue-ink: #4c6376;
+  --accent: #6b2a36;
+  --on-accent: #faf6ee;
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-tint: var(--bg-tint);
+  --color-panel: var(--panel);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-gold: var(--gold);
+  --color-gold-ink: var(--gold-ink);
+  --color-blue: var(--blue);
+  --color-blue-ink: var(--blue-ink);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+  --font-display: var(--font-cormorant);
+  --font-sans: var(--font-jost);
+  --font-inscription: var(--font-cinzel);
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-cormorant), Georgia, serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--gold) 30%, transparent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Small caps meta labels, rationed (see DESIGN.md). */
+.label {
+  font-family: var(--font-jost), system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+/* Iconostasis arch: semicircular top, softly rounded base. */
+.arch {
+  border-radius: 999px 999px 32px 32px;
+}
+/* Soft gold frame + warm lifted shadow, the one elevation style on the page. */
+.frame {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--gold) 55%, transparent),
+    0 30px 70px -36px color-mix(in srgb, var(--gold) 70%, #3b2a10);
+}
+/* Fades full-width ornaments into the page instead of hard edges. */
+.fade-x {
+  mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+}
+
+/* Printable card: exact 5 x 7 in page, no margins, keep colours. */
+@page {
+  size: 5in 7in;
+  margin: 0;
+}
+@media print {
+  html,
+  body {
+    background: none;
+  }
+  * {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}
+
+/* Backdrop: light falling from above, swaying slowly. */
+.rays {
+  background: repeating-conic-gradient(from 160deg at 50% 0%, color-mix(in srgb, var(--gold) 9%, transparent) 0deg 2deg, transparent 2deg 9deg);
+  mask-image: radial-gradient(ellipse 50% 70% at 50% 0%, #000 10%, transparent 75%);
+  transform-origin: 50% 0;
+}
+/* Rising gold motes, like candle sparks. */
+.mote {
+  opacity: 0;
+  animation: mote linear infinite;
+}
+@keyframes mote {
+  10% { opacity: 0.55; }
+  50% { transform: translate(14px, -55vh); }
+  90% { opacity: 0.4; }
+  100% { transform: translate(-6px, -110vh); opacity: 0; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .rays { animation: sway 18s ease-in-out infinite alternate; }
+}
+@keyframes sway {
+  from { transform: translateX(-50%) rotate(-4deg); }
+  to { transform: translateX(-50%) rotate(4deg); }
+}
+
+/* Dove wingbeats. Front-facing art: wings squeeze in and out. Side-view frames: two images alternate. */
+@media (prefers-reduced-motion: no-preference) {
+  .flap { animation: flap var(--flap, 0.7s) ease-in-out infinite; transform-origin: 50% 45%; }
+  .flap-a { animation: frame-a var(--flap, 0.7s) steps(1) infinite; }
+  .flap-b { animation: frame-b var(--flap, 0.7s) steps(1) infinite; }
+}
+@keyframes flap {
+  0%, 100% { transform: scaleX(1) scaleY(1); }
+  50% { transform: scaleX(0.62) scaleY(1.06); }
+}
+@keyframes frame-a { 0% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes frame-b { 0% { opacity: 0; } 50% { opacity: 1; } }
+
+/* Sky (v9, parchment). Ivory light at the top of the page, golden light at the bottom; the Sky component cross-fades them on scroll. */
+.sky-morning {
+  background:
+    radial-gradient(ellipse 60% 55% at 50% 42%, #fffaf0, transparent 70%),
+    radial-gradient(ellipse 90% 50% at 50% -5%, rgb(159 180 197 / 0.32), transparent 70%),
+    radial-gradient(ellipse 80% 45% at 50% 110%, rgb(168 132 63 / 0.26), transparent 70%),
+    linear-gradient(#efe6d6, #f6f0e5);
+}
+.sky-dusk {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 100%, rgb(214 168 98 / 0.45), transparent 72%),
+    radial-gradient(ellipse 70% 40% at 50% 112%, rgb(107 42 54 / 0.12), transparent 70%),
+    linear-gradient(#f3ead9 0%, #f1e2c9 55%, #ecd3ad 100%);
+}
+
+/* Clouds drift slowly sideways; floating things bob gently. */
+@media (prefers-reduced-motion: no-preference) {
+  .drift { animation: drift var(--drift, 60s) ease-in-out infinite alternate; }
+  .bob { animation: bob var(--bob, 6s) ease-in-out infinite; }
+}
+@keyframes drift {
+  from { translate: calc(var(--drift-x, 40px) * -1) 0; }
+  to { translate: var(--drift-x, 40px) 0; }
+}
+@keyframes bob {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -10px; }
+}
+
+/* Frosted glass over the sky: cards, pills, form. */
+.glass {
+  background: rgb(255 250 240 / 0.55);
+  backdrop-filter: blur(18px) saturate(1.2);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.8),
+    0 0 0 1px color-mix(in srgb, var(--gold) 45%, transparent),
+    0 24px 60px -30px rgb(120 86 40 / 0.45);
+}
+@media (prefers-reduced-transparency: reduce) {
+  .glass { background: rgb(251 250 247 / 0.96); backdrop-filter: none; -webkit-backdrop-filter: none; }
+}
+
+/* Golden halo behind the date: fine rays turning very slowly. */
+.halo {
+  background: repeating-conic-gradient(from 0deg, rgb(201 167 102 / 0.28) 0deg 1.5deg, transparent 1.5deg 9deg);
+  mask-image: radial-gradient(closest-side, #000 25%, transparent 100%);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .halo { animation: spin 90s linear infinite; }
+}
+@keyframes spin { to { rotate: 360deg; } }
