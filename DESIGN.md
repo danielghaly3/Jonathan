@@ -129,3 +129,5 @@ Client feedback: sky and clouds read as a memorial. The site now represents the 
 - Photos (`ReflectedPhoto`): church arches standing over still water, with a mirrored, fading, shimmering reflection and ripples at the waterline.
 - Signs: emblems hover over small pools with ripples. Save the day: arched card between two church candles (sm+). Headings: small gold Coptic cross. Dividers: drifting gold wave line (`WaveLine`). Footer: the dove above the font's water.
 - Removed: clouds, sky gradients, cloud art. Palette unchanged (parchment, gold, burgundy); a little water-blue appears only in water.
+- v11.1 smoothness: ripples are plain elements with CSS transform/opacity animations (GPU) instead of JS-driven SVG; on phones the dove glides along the right edge with a slow, soft spring and calmer wingbeat, the backdrop does not zoom, and only two candle glows flicker. Measured on a 4x-throttled phone: ~2.6 ms main-thread work per scroll frame.
+- Venue art: church beside a still reflecting pool, no clouds (public/place/venue-church.jpg).

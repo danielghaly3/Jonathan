@@ -1,26 +1,21 @@
-"use client";
-import { motion, useReducedMotion } from "motion/react";
 import type { CSSProperties } from "react";
 
-/** Concentric ripples spreading on still water, as from a drop falling into the font. */
+/**
+ * Concentric ripples spreading on still water, as from a drop falling into the font.
+ * Plain elements with CSS transform/opacity animations: the GPU runs them, so they cost nothing while scrolling.
+ */
+// Callers position it (e.g. "absolute ..."); the rings fill it.
 export function Ripples({ className = "", rings = 3, delay = 0 }: { className?: string; rings?: number; delay?: number }) {
-  const reduce = useReducedMotion();
   return (
-    <svg aria-hidden viewBox="-100 -20 200 40" className={`pointer-events-none text-gold ${className}`}>
+    <div aria-hidden className={`pointer-events-none aspect-[5/1] ${className}`}>
       {Array.from({ length: rings }, (_, i) => (
-        <motion.ellipse
+        <span
           key={i}
-          rx="96"
-          ry="16"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="0.6"
-          initial={false}
-          animate={reduce ? { scale: 0.45 + i * 0.25, opacity: 0.45 - i * 0.1 } : { scale: [0.08, 1], opacity: [0, 0.65, 0] }}
-          transition={reduce ? { duration: 0 } : { duration: 5, delay: delay + (i * 5) / rings, repeat: Infinity, ease: "easeOut" }}
+          className="ripple absolute inset-0 rounded-[50%] border border-gold/70"
+          style={{ animationDelay: `${delay + (i * 5) / rings}s`, "--rest": 0.45 + i * 0.25 } as CSSProperties}
         />
       ))}
-    </svg>
+    </div>
   );
 }
 
