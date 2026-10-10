@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { CalendarPlus } from "@phosphor-icons/react";
 import { motion, useReducedMotion } from "motion/react";
-import { Cloud } from "./Cloud";
+import { Candle } from "./Water";
 import { Countdown } from "./Countdown";
 
 type Props = {
@@ -14,17 +14,16 @@ type Props = {
   icsHref: string;
   icsName: string;
   dove: string;
-  cloud: string;
 };
 
 const soft = [0.22, 1, 0.36, 1] as const;
 const WEEK = ["S", "M", "T", "W", "T", "F", "S"];
 
 /**
- * "Save the day" as an illuminated calendar page resting on a cloud: the day glowing in a golden halo,
+ * "Save the day" as an illuminated calendar page between two candles: the day glowing in a golden halo,
  * the month laid out beneath with the day ringed in gold, the countdown, and "Add to calendar".
  */
-export function SaveTheDay({ date, weekday, month, when, countdownTarget, icsHref, icsName, dove, cloud }: Props) {
+export function SaveTheDay({ date, weekday, month, when, countdownTarget, icsHref, icsName, dove }: Props) {
   const reduce = useReducedMotion();
   const [y, m, d] = date.split("-").map(Number);
   const lead = new Date(Date.UTC(y, m - 1, 1)).getUTCDay();
@@ -42,9 +41,9 @@ export function SaveTheDay({ date, weekday, month, when, countdownTarget, icsHre
         </motion.div>
       )}
 
-      {/* The card rests on clouds that drift out from behind it, never over the button. */}
-      <Cloud variant={0} src={cloud} className="drift absolute -bottom-14 -left-[34%] w-[80%]" />
-      <Cloud variant={3} src={cloud} className="drift absolute -right-[36%] -bottom-16 w-[85%]" />
+      {/* Two church candles keep watch beside the card (wider screens). */}
+      <Candle height={190} className="absolute bottom-0 -left-24 hidden sm:flex" />
+      <Candle height={150} className="absolute bottom-0 -right-24 hidden sm:flex" />
 
       <div className="glass relative overflow-hidden rounded-[999px_999px_44px_44px] px-6 pt-24 pb-10 sm:px-10">
         {/* The day */}

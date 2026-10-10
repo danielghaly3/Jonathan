@@ -44,7 +44,7 @@ export const invitation = {
     family: { src: "/photos/jonathan-family.png", alt: "Jonathan cradled by his parents" }, // 3:4, the one feature photo
     // 4:3, shown in "Where we gather". Use a real photo of the hall if you have one;
     // otherwise CODEX_PLACE_ART.md generates an artistic illustration at this path. Hidden while missing.
-    venue: { src: "/place/venue.jpg", alt: "Illustration of a Coptic church in golden light" },
+    venue: { src: "/place/venue-church.jpg", alt: "Illustration of a Coptic church beside still water" },
   },
 
   // "The signs of baptism" scroll story. Edit freely; `image` is an optional transparent PNG emblem
@@ -86,8 +86,9 @@ export const invitation = {
     // Optional side-view flight frames facing right (see CODEX_DOVE_FLIGHT.md): real wingbeats.
     flyUp: "/dove/fly-up.png",
     flyDown: "/dove/fly-down.png",
-    // Optional painted clouds, transparent PNGs (see CODEX_SKY_ART.md). Drawn clouds are used until they exist.
-    clouds: ["/sky/cloud-1.png", "/sky/cloud-2.png", "/sky/cloud-3.png", "/sky/cloud-4.png"],
+    // The sanctuary with its baptismal font: intro and page backdrop (see CODEX_INTRO_ART.md).
+    sanctuaryWide: "/intro/sanctuary-wide.jpg", // 16:9, desktop
+    sanctuaryTall: "/intro/sanctuary-tall.jpg", // 9:16, phones
   },
 
   // Formatting for dates shown to guests.

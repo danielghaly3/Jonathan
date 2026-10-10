@@ -28,7 +28,6 @@ Or open `/print` and print at 5 × 7 in, margins none, background graphics on.
 Drop these into `public/intro/` and they are picked up automatically (paths in `invitation.config.ts` → `intro`). Missing files fall back to the built-in light.
 - `sanctuary-wide.jpg` (2400×1350), `sanctuary-tall.jpg` (1350×2400): blurred sanctuary background
 - `dove-gold.png` (1024×1024, transparent): the descending dove
-- `paper-texture.jpg` (1024×1024, seamless): ivory paper grain across the whole site
 
 ## RSVP replies
 Replies are emailed as a designed card when these Vercel environment variables are set

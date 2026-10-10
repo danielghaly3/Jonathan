@@ -3,8 +3,8 @@ import Image from "next/image";
 import { Drop, Flask, Sparkle } from "@phosphor-icons/react";
 import { motion, useReducedMotion } from "motion/react";
 import type { CSSProperties } from "react";
-import { Cloud } from "./Cloud";
 import { CopticCross } from "./CopticCross";
+import { Ripples } from "./Water";
 
 export type Sign = { title: string; line: string; text: string; image: string; icon: string };
 
@@ -18,8 +18,8 @@ function Emblem({ sign }: { sign: Sign }) {
   return <CopticCross size={60} animate={false} />;
 }
 
-/** The signs of baptism: four gold emblems floating on little clouds, each with its meaning beneath. */
-export function Signs({ signs, clouds }: { signs: readonly Sign[]; clouds: string[] }) {
+/** The signs of baptism: four gold emblems hovering over small pools of water, each with its meaning beneath. */
+export function Signs({ signs }: { signs: readonly Sign[] }) {
   const reduce = useReducedMotion();
   return (
     <ul className="mx-auto grid max-w-5xl grid-cols-2 gap-x-5 gap-y-14 lg:grid-cols-4 lg:gap-x-8">
@@ -33,7 +33,8 @@ export function Signs({ signs, clouds }: { signs: readonly Sign[]; clouds: strin
           transition={{ duration: 1, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
         >
           <div className="relative flex h-36 w-full items-end justify-center sm:h-44">
-            <Cloud variant={i} src={clouds.length ? clouds[i % clouds.length] : ""} className="absolute -bottom-3 w-[115%] max-w-60" />
+            <div aria-hidden className="absolute bottom-0 h-8 w-[90%] max-w-44 rounded-[50%] bg-[radial-gradient(closest-side,rgb(159_180_197/0.45),rgb(159_180_197/0))]" />
+            <Ripples className="absolute -bottom-3 w-[105%] max-w-52" delay={i * 0.8} />
             <div className="bob relative mb-5 size-24 sm:size-28" style={{ "--bob": `${5 + i * 0.7}s` } as CSSProperties}>
               <Emblem sign={s} />
             </div>

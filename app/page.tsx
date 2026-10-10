@@ -4,15 +4,15 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 import { MapPin } from "@phosphor-icons/react/dist/ssr";
 import { invitation as c } from "@/invitation.config";
-import { Cloud } from "@/components/Cloud";
-import { CloudPhoto } from "@/components/CloudPhoto";
 import { Opening } from "@/components/Opening";
+import { ReflectedPhoto } from "@/components/ReflectedPhoto";
+import { Sanctuary } from "@/components/Sanctuary";
 import { HeroName, OpenReveal, Reveal } from "@/components/Reveal";
 import { RsvpForm } from "@/components/RsvpForm";
 import { SaveTheDay } from "@/components/SaveTheDay";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Signs } from "@/components/Signs";
-import { Sky } from "@/components/Sky";
+import { Ripples, WaveLine } from "@/components/Water";
 import { formatDate, formatDayMonth, formatMonth, formatTime, formatWeekday, icsHref, mapsHref, year } from "@/lib/format";
 
 // Artwork is optional: use a file only if it is actually in /public.
@@ -24,23 +24,24 @@ export default function Home() {
   const location = `${e.venue}, ${e.venueDetail}, ${e.address}`;
   const signs = c.signs.map((s) => ({ ...s, image: asset(s.image) }));
   const dove = { front: asset(c.art.dove), flyUp: asset(c.art.flyUp), flyDown: asset(c.art.flyDown) };
-  const clouds = c.art.clouds.map(asset).filter(Boolean);
+  const wide = asset(c.art.sanctuaryWide);
+  const tall = asset(c.art.sanctuaryTall);
   const venuePhoto = asset(photos.venue.src);
   const section = "relative px-5 py-28 sm:py-36";
 
   return (
-    <Opening name={c.name} heading={c.heading} date={formatDate(e.date, c.locale)} dove={dove.front} clouds={clouds}>
-      <Sky clouds={clouds} dove={dove} />
+    <Opening name={c.name} heading={c.heading} date={formatDate(e.date, c.locale)} dove={dove.front} wide={wide} tall={tall}>
+      <Sanctuary wide={wide} tall={tall} dove={dove} />
       <main className="overflow-x-clip text-center">
-        {/* Hero: Jonathan in the clouds */}
+        {/* Hero: Jonathan in the arch, reflected in the water of the font */}
         <section className="flex min-h-[100dvh] flex-col items-center justify-center px-5 pt-16 pb-24">
           <OpenReveal delay={0.2}>
             <p className="label text-gold-ink">{c.heading}</p>
           </OpenReveal>
           <OpenReveal delay={0.4} className="mt-10 w-[min(64vw,calc(42dvh*0.8),20rem)]">
-            <CloudPhoto photo={photos.main} clouds={clouds} preload />
+            <ReflectedPhoto photo={photos.main} preload />
           </OpenReveal>
-          <div className="relative z-10 mt-8">
+          <div className="relative z-10 -mt-4">
             <HeroName name={c.name} />
           </div>
           <OpenReveal delay={2} className="mt-4 flex flex-col items-center">
@@ -49,7 +50,9 @@ export default function Home() {
           </OpenReveal>
         </section>
 
-        {/* The verse, written on the sky */}
+        <WaveLine />
+
+        {/* The verse */}
         {scripture.show && (
           <section className={section}>
             <Reveal>
@@ -73,9 +76,11 @@ export default function Home() {
             </SectionHeading>
           </Reveal>
           <div className="mt-16">
-            <Signs signs={signs} clouds={clouds} />
+            <Signs signs={signs} />
           </div>
         </section>
+
+        <WaveLine />
 
         {/* Family */}
         <section className={section}>
@@ -89,13 +94,13 @@ export default function Home() {
           </Reveal>
           {photos.family.src && (
             <Reveal className="mt-16 sm:mt-20">
-              <CloudPhoto photo={photos.family} clouds={clouds} className="w-[min(70vw,24rem)]" />
-              {c.hosts && <p className="mt-16 font-display text-xl text-gold-ink italic">{c.hosts}</p>}
+              <ReflectedPhoto photo={photos.family} ratio="3/4" className="w-[min(70vw,24rem)]" />
+              {c.hosts && <p className="mt-4 font-display text-xl text-gold-ink italic">{c.hosts}</p>}
             </Reveal>
           )}
         </section>
 
-        {/* The day: an illuminated calendar page resting on a cloud */}
+        {/* The day: an illuminated calendar page between two candles */}
         <section className={section}>
           <Reveal>
             <SectionHeading>
@@ -112,7 +117,6 @@ export default function Home() {
               icsHref={icsHref({ title: `${c.name}'s Baptism`, date: e.date, time: e.time, durationMinutes: e.durationMinutes, location })}
               icsName={`${c.name.toLowerCase()}-baptism.ics`}
               dove={dove.front}
-              cloud={clouds[1] ?? clouds[0] ?? ""}
             />
           </div>
         </section>
@@ -142,6 +146,8 @@ export default function Home() {
           </Reveal>
         </section>
 
+        <WaveLine />
+
         {/* Reply */}
         <section id="rsvp" className={section}>
           <Reveal className="mx-auto max-w-md">
@@ -154,11 +160,12 @@ export default function Home() {
           </Reveal>
         </section>
 
-        {/* Blessing: the dove at rest on a cloud */}
+        {/* Blessing: the dove above the water of the font */}
         <footer className="relative px-5 pt-20 pb-24">
           <Reveal className="flex flex-col items-center">
             <div className="relative flex h-40 w-72 items-end justify-center">
-              <Cloud variant={2} src={clouds[0] ?? ""} className="absolute -bottom-4 w-full" />
+              <div aria-hidden className="absolute bottom-0 h-10 w-full rounded-[50%] bg-[radial-gradient(closest-side,rgb(159_180_197/0.5),rgb(159_180_197/0))]" />
+              <Ripples className="absolute -bottom-4 w-[120%]" rings={4} />
               {dove.front && <Image src={dove.front} alt="" width={176} height={176} className="bob relative mb-8 w-22 drop-shadow-[0_10px_20px_rgb(177_141_72/0.4)]" />}
             </div>
             <p className="mt-10 font-display text-[clamp(1.5rem,4.5vw,2rem)] font-light text-ink-soft italic">With love and prayers</p>

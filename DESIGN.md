@@ -121,3 +121,11 @@ Client asked to keep the heavenly design but return to the gold-and-burgundy pal
 ## v10: Save the day + venue image
 - Save the day (`SaveTheDay`): a frosted-glass arch "calendar page" resting on clouds (clouds behind the card), dove perched on top; weekday, month between gold rules, the day large in burgundy over a slowly turning golden halo, year, "Following the Divine Liturgy"; the month grid fades in and the day gets a burgundy disc with a gold ring drawn around it; countdown as a row of rolling numbers with gold dividers; "Add to calendar" lives here now.
 - Where we gather: optional arched picture window at the top of the venue card (`photos.venue`, /place/venue.jpg). A real photo of the hall is preferred; CODEX_PLACE_ART.md makes a clearly artistic illustration. Hidden while missing.
+
+## v11: The Sanctuary and the Font (current)
+Client feedback: sky and clouds read as a memorial. The site now represents the ceremony itself: the church and the water of the font.
+- Backdrop (`Sanctuary`): the painted sanctuary with its baptismal font, veiled in ivory (strongest at the centre for text), candle glows flickering over the painted candles, warm gold deepening toward the end, the dove of the Spirit flying behind the text.
+- Intro: the candlelit sanctuary; dove descends, JONATHAN in Cinzel; "Open the invitation" drops a water drop into the font and the ripple opens onto the site (feathered radial mask + gold/blue ripple ring).
+- Photos (`ReflectedPhoto`): church arches standing over still water, with a mirrored, fading, shimmering reflection and ripples at the waterline.
+- Signs: emblems hover over small pools with ripples. Save the day: arched card between two church candles (sm+). Headings: small gold Coptic cross. Dividers: drifting gold wave line (`WaveLine`). Footer: the dove above the font's water.
+- Removed: clouds, sky gradients, cloud art. Palette unchanged (parchment, gold, burgundy); a little water-blue appears only in water.
