@@ -31,6 +31,14 @@ Drop these into `public/intro/` and they are picked up automatically (paths in `
 - `paper-texture.jpg` (1024×1024, seamless): ivory paper grain across the whole site
 
 ## RSVP replies
+Replies are emailed as a designed card when these Vercel environment variables are set
+(Project Settings → Environment Variables, then redeploy):
+- `RSVP_TO_EMAIL`: who receives replies (comma-separated for several)
+- `RESEND_API_KEY`: from https://resend.com (free). Without a verified domain, Resend only delivers to the email
+  address that owns the Resend account, so sign up with the receiving address.
+- `RSVP_FROM_EMAIL` (optional): e.g. `Jonathan's Baptism <rsvp@yourdomain.com>` once a domain is verified.
+
+Without email configured:
 The form ("I'll be there" / "I can't make it", name, phone, and number of guests when attending) posts to `/api/rsvp`. CSV columns: time, attending|declined, name, phone, guests.
 - **Locally / on a server with a disk:** replies are appended to `data/rsvps.csv` (git-ignored; it contains guests' phone numbers, so keep it private).
 - **On Vercel or other serverless hosts:** set `RSVP_WEBHOOK_URL` to an endpoint that stores JSON (e.g. a Google Apps Script bound to a Sheet). Without it, submissions there will fail with a friendly error.
