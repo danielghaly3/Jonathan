@@ -12,7 +12,7 @@ import { RsvpForm } from "@/components/RsvpForm";
 import { SaveTheDay } from "@/components/SaveTheDay";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Signs } from "@/components/Signs";
-import { Ripples, WaveLine } from "@/components/Water";
+import { Pool, WaveLine } from "@/components/Water";
 import { formatDate, formatDayMonth, formatMonth, formatTime, formatWeekday, icsHref, mapsHref, year } from "@/lib/format";
 
 // Artwork is optional: use a file only if it is actually in /public.
@@ -26,6 +26,8 @@ export default function Home() {
   const dove = { front: asset(c.art.dove), flyUp: asset(c.art.flyUp), flyDown: asset(c.art.flyDown) };
   const wide = asset(c.art.sanctuaryWide);
   const tall = asset(c.art.sanctuaryTall);
+  const pool = asset(c.art.waterPool);
+  const waterLight = asset(c.art.waterLight);
   const venuePhoto = asset(photos.venue.src);
   const section = "relative px-5 py-28 sm:py-36";
 
@@ -39,7 +41,7 @@ export default function Home() {
             <p className="label text-gold-ink">{c.heading}</p>
           </OpenReveal>
           <OpenReveal delay={0.4} className="mt-10 w-[min(64vw,calc(42dvh*0.8),20rem)]">
-            <ReflectedPhoto photo={photos.main} preload />
+            <ReflectedPhoto photo={photos.main} waterLight={waterLight} preload />
           </OpenReveal>
           <div className="relative z-10 -mt-4">
             <HeroName name={c.name} />
@@ -76,7 +78,7 @@ export default function Home() {
             </SectionHeading>
           </Reveal>
           <div className="mt-16">
-            <Signs signs={signs} />
+            <Signs signs={signs} pool={pool} />
           </div>
         </section>
 
@@ -94,7 +96,7 @@ export default function Home() {
           </Reveal>
           {photos.family.src && (
             <Reveal className="mt-16 sm:mt-20">
-              <ReflectedPhoto photo={photos.family} ratio="3/4" className="w-[min(70vw,24rem)]" />
+              <ReflectedPhoto photo={photos.family} ratio="3/4" waterLight={waterLight} className="w-[min(70vw,24rem)]" />
               {c.hosts && <p className="mt-4 font-display text-xl text-gold-ink italic">{c.hosts}</p>}
             </Reveal>
           )}
@@ -164,8 +166,7 @@ export default function Home() {
         <footer className="relative px-5 pt-20 pb-24">
           <Reveal className="flex flex-col items-center">
             <div className="relative flex h-40 w-72 items-end justify-center">
-              <div aria-hidden className="absolute bottom-0 h-10 w-full rounded-[50%] bg-[radial-gradient(closest-side,rgb(159_180_197/0.5),rgb(159_180_197/0))]" />
-              <Ripples className="absolute -bottom-4 w-[120%]" rings={4} />
+              <Pool src={pool} className="absolute -bottom-5 w-full" rings={4} />
               {dove.front && <Image src={dove.front} alt="" width={176} height={176} className="bob relative mb-8 w-22 drop-shadow-[0_10px_20px_rgb(177_141_72/0.4)]" />}
             </div>
             <p className="mt-10 font-display text-[clamp(1.5rem,4.5vw,2rem)] font-light text-ink-soft italic">With love and prayers</p>

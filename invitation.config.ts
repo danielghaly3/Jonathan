@@ -89,6 +89,9 @@ export const invitation = {
     // The sanctuary with its baptismal font: intro and page backdrop (see CODEX_INTRO_ART.md).
     sanctuaryWide: "/intro/sanctuary-wide.jpg", // 16:9, desktop
     sanctuaryTall: "/intro/sanctuary-tall.jpg", // 9:16, phones
+    // Optional painted water (see CODEX_WATER_ART.md); soft drawn water is used until they exist.
+    waterPool: "/water/pool.png", // small still pool under the emblems and the dove
+    waterLight: "/water/light.png", // seamless shimmering light drifting over the photo reflections
   },
 
   // Formatting for dates shown to guests.

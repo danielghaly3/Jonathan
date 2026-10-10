@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { CSSProperties } from "react";
 
 /**
@@ -11,10 +12,27 @@ export function Ripples({ className = "", rings = 3, delay = 0 }: { className?: 
       {Array.from({ length: rings }, (_, i) => (
         <span
           key={i}
-          className="ripple absolute inset-0 rounded-[50%] border border-gold/70"
+          className="ripple absolute inset-0 rounded-[50%] bg-[radial-gradient(closest-side,transparent_86%,rgb(255_252_245/0.85)_94%,transparent_100%)]"
           style={{ animationDelay: `${delay + (i * 5) / rings}s`, "--rest": 0.45 + i * 0.25 } as CSSProperties}
         />
       ))}
+    </div>
+  );
+}
+
+/**
+ * A small pool of still water for things to rest above: the painted pool when provided
+ * (see CODEX_WATER_ART.md), otherwise a soft drawn one. Gentle light ripples spread across it.
+ */
+export function Pool({ src = "", className = "", rings = 3, delay = 0 }: { src?: string; className?: string; rings?: number; delay?: number }) {
+  return (
+    <div aria-hidden className={`pointer-events-none aspect-[14/5] ${className}`}>
+      {src ? (
+        <Image src={src} alt="" fill sizes="(min-width: 640px) 320px, 60vw" className="object-contain" />
+      ) : (
+        <div className="absolute inset-0 rounded-[50%] bg-[radial-gradient(closest-side,rgb(220_232_238/0.85),rgb(196_214_224/0.55)_45%,rgb(196_214_224/0.18)_75%,transparent)] shadow-[inset_0_6px_14px_rgb(255_255_255/0.7)]" />
+      )}
+      <Ripples className="absolute inset-[12%_8%]" rings={rings} delay={delay} />
     </div>
   );
 }
