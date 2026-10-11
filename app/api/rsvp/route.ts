@@ -1,10 +1,12 @@
 import { appendFile, mkdir } from "node:fs/promises";
 import { invitation } from "@/invitation.config";
+import { dbConfigured, saveRsvp } from "@/lib/db";
 import { rsvpEmail } from "@/lib/email";
 import { csvRow, parseRsvp } from "@/lib/rsvp";
 
 /**
  * Delivers an RSVP. Every configured channel is used:
+ * - SUPABASE_URL + SUPABASE_SECRET_KEY: saved to the `rsvps` table (read by /admin).
  * - RESEND_API_KEY + RSVP_TO_EMAIL: emailed (branded HTML) through Resend. RSVP_FROM_EMAIL optional.
  * - RSVP_WEBHOOK_URL: POSTed as JSON (e.g. a Google Apps Script that appends to a Sheet).
  * - Neither: appended to data/rsvps.csv.
@@ -22,6 +24,8 @@ export async function POST(req: Request) {
   const receivedAt = new Date().toISOString();
   const { RESEND_API_KEY: key, RSVP_TO_EMAIL: to, RSVP_FROM_EMAIL: from, RSVP_WEBHOOK_URL: hook } = process.env;
   try {
+    // The database is the record the admin page reads; save there first.
+    if (dbConfigured) await saveRsvp(parsed.data);
     if (key && to) {
       const mail = rsvpEmail(parsed.data, receivedAt, invitation.name);
       const res = await fetch("https://api.resend.com/emails", {
@@ -35,7 +39,7 @@ export async function POST(req: Request) {
       const res = await fetch(hook, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ attending, name, phone, guests, receivedAt }) });
       if (!res.ok) throw new Error(`Webhook responded ${res.status}`);
     }
-    if (!(key && to) && !hook) {
+    if (!dbConfigured && !(key && to) && !hook) {
       await mkdir("data", { recursive: true });
       await appendFile("data/rsvps.csv", csvRow([receivedAt, attending ? "attending" : "declined", name, phone, guests]));
     }
