@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Allura, Cormorant_Garamond, Jost } from "next/font/google";
+import { Cormorant_Garamond, Josefin_Sans, Jost } from "next/font/google";
 import { invitation } from "@/invitation.config";
 import "./globals.css";
 
@@ -11,8 +11,8 @@ const cormorant = Cormorant_Garamond({
 });
 
 const jost = Jost({ variable: "--font-jost", subsets: ["latin"], weight: ["400", "500"] });
-// The name: flowing calligraphy, as on a christening invitation.
-const nameFont = Allura({ variable: "--font-allura", subsets: ["latin"], weight: "400" });
+// The name: thin, wide geometric capitals, modern and minimal against the classic serif text.
+const nameFont = Josefin_Sans({ variable: "--font-josefin", subsets: ["latin"], weight: "300" });
 
 export const metadata: Metadata = {
   title: `${invitation.name} · Baptism`,

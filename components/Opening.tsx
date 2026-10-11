@@ -95,15 +95,18 @@ export function Opening({ name, date, heading, dove, wide, tall, children }: Pro
               <motion.p className="mt-6 font-display text-[clamp(1.2rem,4vw,1.5rem)] text-[#6a5d55] italic" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={t(at(1.6))}>
                 You are invited to the holy baptism of
               </motion.p>
-              {/* The name in calligraphy, revealed left to right as if written by a pen. */}
-              <motion.p
-                className="mt-2 px-6 pb-1 font-name text-[clamp(4.4rem,18vw,7.8rem)] leading-[1.25] text-[#6b2a36] drop-shadow-[0_2px_18px_rgb(255_250_240/0.9)]"
-                initial={{ clipPath: "inset(-20% 100% -20% 0)" }}
-                animate={{ clipPath: "inset(-20% -5% -20% 0)" }}
-                transition={reduce ? { duration: 0 } : { duration: 2.2, delay: at(1.9), ease: [0.45, 0, 0.25, 1] }}
+              {/* The name in wide thin capitals, each letter surfacing in turn. */}
+              <p
+                aria-label={name}
+                className="mt-4 font-name text-[clamp(2.3rem,10vw,4.8rem)] leading-[1.2] font-light text-[#6b2a36] uppercase drop-shadow-[0_2px_18px_rgb(255_250_240/0.9)]"
+                style={{ letterSpacing: "0.32em", paddingLeft: "0.32em" }}
               >
-                {name}
-              </motion.p>
+                {[...name].map((ch, i) => (
+                  <motion.span key={i} aria-hidden className="inline-block" initial={{ opacity: 0, y: 12, filter: "blur(6px)" }} animate={{ opacity: 1, y: 0, filter: "blur(0px)" }} transition={t(at(1.9 + i * 0.12), 1.3)}>
+                    {ch}
+                  </motion.span>
+                ))}
+              </p>
               <motion.p className="label mt-3 text-[#7e6129]" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={t(at(3.2))}>
                 {heading}
               </motion.p>
