@@ -27,7 +27,7 @@ export function HeroName({ name }: { name: string }) {
   const opened = useOpened();
   return (
     <motion.h1
-      className="px-6 pb-1 font-name text-[clamp(4.2rem,17vw,8rem)] leading-[1.2] text-accent"
+      className="px-6 pb-1 font-name text-[clamp(4.8rem,20vw,9.2rem)] leading-[1.2] text-accent"
       initial={{ clipPath: "inset(-20% 100% -20% -5%)" }}
       animate={opened ? { clipPath: "inset(-20% -5% -20% -5%)" } : {}}
       transition={reduce ? { duration: 0 } : { duration: 2, delay: 1.1, ease: [0.45, 0, 0.25, 1] }}

@@ -24,7 +24,7 @@ export default function PrintCard() {
 
         <CopticCross size={40} animate={false} className="mt-1 shrink-0" />
         <p className="label mt-3 !text-[7.5px] text-gold-ink">{c.heading}</p>
-        <h1 className="mt-1 font-name text-[62px] leading-[1.2] text-accent">
+        <h1 className="mt-1 font-name text-[70px] leading-[1.2] text-accent">
           {c.name}
         </h1>
 

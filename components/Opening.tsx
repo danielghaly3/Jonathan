@@ -97,7 +97,7 @@ export function Opening({ name, date, heading, dove, wide, tall, children }: Pro
               </motion.p>
               {/* The name in brush script, revealed left to right as if written with a brush. */}
               <motion.p
-                className="mt-2 px-6 pb-1 font-name text-[clamp(4rem,16vw,7.2rem)] leading-[1.25] text-[#6b2a36] drop-shadow-[0_2px_18px_rgb(255_250_240/0.9)]"
+                className="mt-2 px-6 pb-1 font-name text-[clamp(4.6rem,19vw,8.4rem)] leading-[1.25] text-[#6b2a36] drop-shadow-[0_2px_18px_rgb(255_250_240/0.9)]"
                 initial={{ clipPath: "inset(-20% 100% -20% -5%)" }}
                 animate={{ clipPath: "inset(-20% -5% -20% -5%)" }}
                 transition={reduce ? { duration: 0 } : { duration: 2, delay: at(1.9), ease: [0.45, 0, 0.25, 1] }}
