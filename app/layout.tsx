@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Cinzel, Cormorant_Garamond, Jost } from "next/font/google";
+import { Cormorant_Garamond, Della_Respira, Jost } from "next/font/google";
 import { invitation } from "@/invitation.config";
 import "./globals.css";
 
@@ -11,7 +11,8 @@ const cormorant = Cormorant_Garamond({
 });
 
 const jost = Jost({ variable: "--font-jost", subsets: ["latin"], weight: ["400", "500"] });
-const cinzel = Cinzel({ variable: "--font-cinzel", subsets: ["latin"], weight: "400" });
+// The name: a Renaissance book face, as in old church and liturgical printing.
+const nameFont = Della_Respira({ variable: "--font-della", subsets: ["latin"], weight: "400" });
 
 export const metadata: Metadata = {
   title: `${invitation.name} · Baptism`,
@@ -24,7 +25,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${jost.variable} ${cinzel.variable} antialiased`}>
+    <html lang="en" className={`${cormorant.variable} ${jost.variable} ${nameFont.variable} antialiased`}>
       <body className="min-h-dvh">{children}</body>
     </html>
   );

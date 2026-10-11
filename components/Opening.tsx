@@ -97,8 +97,8 @@ export function Opening({ name, date, heading, dove, wide, tall, children }: Pro
               </motion.p>
               <p
                 aria-label={name}
-                className="mt-3 font-inscription text-[clamp(2.6rem,10.5vw,5.2rem)] leading-[1.15] text-[#6b2a36] uppercase drop-shadow-[0_2px_18px_rgb(255_250_240/0.9)]"
-                style={{ letterSpacing: "0.12em", paddingLeft: "0.12em" }}
+                className="mt-3 font-name text-[clamp(3.4rem,14vw,6.2rem)] leading-[1.15] text-[#6b2a36] drop-shadow-[0_2px_18px_rgb(255_250_240/0.9)]"
+                style={{ letterSpacing: "0.03em" }}
               >
                 {[...name].map((ch, i) => (
                   <motion.span key={i} aria-hidden className="inline-block" initial={{ opacity: 0, y: 14, filter: "blur(6px)" }} animate={{ opacity: 1, y: 0, filter: "blur(0px)" }} transition={t(at(1.9 + i * 0.12), 1.3)}>

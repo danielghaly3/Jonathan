@@ -170,7 +170,7 @@ export default function Home() {
               {dove.front && <Image src={dove.front} alt="" width={176} height={176} className="bob relative mb-8 w-22 drop-shadow-[0_10px_20px_rgb(177_141_72/0.4)]" />}
             </div>
             <p className="mt-10 font-display text-[clamp(1.5rem,4.5vw,2rem)] font-light text-ink-soft italic">With love and prayers</p>
-            <p className="mt-3 font-inscription text-[clamp(1.9rem,7vw,2.8rem)] leading-none text-accent uppercase" style={{ letterSpacing: "0.14em", paddingLeft: "0.14em" }}>
+            <p className="mt-3 font-name text-[clamp(2.4rem,9vw,3.4rem)] leading-none text-accent" style={{ letterSpacing: "0.03em" }}>
               {c.name}
             </p>
             <p className="label mt-4 text-gold-ink">{year(e.date)}</p>

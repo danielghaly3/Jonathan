@@ -28,8 +28,8 @@ export function HeroName({ name }: { name: string }) {
   return (
     <h1
       aria-label={name}
-      className="font-inscription text-[clamp(2.6rem,11vw,6rem)] leading-[1.1] text-accent uppercase"
-      style={{ letterSpacing: "0.12em", paddingLeft: "0.12em" }}
+      className="font-name text-[clamp(3.4rem,14vw,7rem)] leading-[1.1] text-accent"
+      style={{ letterSpacing: "0.03em" }}
     >
       {[...name].map((ch, i) => (
         <motion.span
