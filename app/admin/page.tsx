@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { dbConfigured, listRsvps } from "@/lib/db";
+import { AutoRefresh } from "./AutoRefresh";
 
 export const metadata: Metadata = { title: "Replies · Admin", robots: { index: false, follow: false } };
 
@@ -56,8 +57,12 @@ async function Admin({ searchParams }: { searchParams: Promise<{ error?: string 
 
   return (
     <div className="mx-auto max-w-4xl">
+      <AutoRefresh />
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-4xl">Replies</h1>
+        <div>
+          <h1 className="font-display text-4xl">Replies</h1>
+          <p className="font-sans text-xs text-ink-soft">Live: updates every few seconds</p>
+        </div>
         <form action={logout}>
           <button className="cursor-pointer font-sans text-sm text-ink-soft underline">Sign out</button>
         </form>
