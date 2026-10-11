@@ -21,29 +21,19 @@ export function Reveal({ children, delay = 0, className = "" }: { children: Reac
   );
 }
 
-/** Hero name: wide thin capitals rising out of a soft blur one by one once the invitation opens. */
+/** Hero name: written left to right as if with a brush once the invitation opens, the climax of the hero. */
 export function HeroName({ name }: { name: string }) {
   const reduce = useReducedMotion();
   const opened = useOpened();
   return (
-    <h1
-      aria-label={name}
-      className="font-name text-[clamp(2.3rem,10.5vw,5.6rem)] leading-[1.2] font-light text-accent uppercase"
-      style={{ letterSpacing: "0.32em", paddingLeft: "0.32em" }}
+    <motion.h1
+      className="px-6 pb-1 font-name text-[clamp(4.2rem,17vw,8rem)] leading-[1.2] text-accent"
+      initial={{ clipPath: "inset(-20% 100% -20% -5%)" }}
+      animate={opened ? { clipPath: "inset(-20% -5% -20% -5%)" } : {}}
+      transition={reduce ? { duration: 0 } : { duration: 2, delay: 1.1, ease: [0.45, 0, 0.25, 1] }}
     >
-      {[...name].map((ch, i) => (
-        <motion.span
-          key={i}
-          aria-hidden
-          className="inline-block"
-          initial={{ opacity: 0, y: 24, filter: "blur(10px)" }}
-          animate={opened ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
-          transition={reduce ? { duration: 0 } : { duration: 1.4, delay: 1.1 + i * 0.09, ease }}
-        >
-          {ch}
-        </motion.span>
-      ))}
-    </h1>
+      {name}
+    </motion.h1>
   );
 }
 

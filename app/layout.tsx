@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Josefin_Sans, Jost } from "next/font/google";
+import { Cormorant_Garamond, Jost, Yellowtail } from "next/font/google";
 import { invitation } from "@/invitation.config";
 import "./globals.css";
 
@@ -11,8 +11,8 @@ const cormorant = Cormorant_Garamond({
 });
 
 const jost = Jost({ variable: "--font-jost", subsets: ["latin"], weight: ["400", "500"] });
-// The name: thin, wide geometric capitals, modern and minimal against the classic serif text.
-const nameFont = Josefin_Sans({ variable: "--font-josefin", subsets: ["latin"], weight: "300" });
+// The name: a bold, slanted brush script (client reference: a heavy connected brush hand).
+const nameFont = Yellowtail({ variable: "--font-yellowtail", subsets: ["latin"], weight: "400" });
 
 export const metadata: Metadata = {
   title: `${invitation.name} · Baptism`,
