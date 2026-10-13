@@ -44,7 +44,7 @@ export const invitation = {
     family: { src: "/photos/jonathan-family.png", alt: "Jonathan cradled by his parents" }, // 3:4, the one feature photo
     // 4:3, shown in "Where we gather". Use a real photo of the hall if you have one;
     // otherwise CODEX_PLACE_ART.md generates an artistic illustration at this path. Hidden while missing.
-    venue: { src: "/place/venue-church.jpg", alt: "Illustration of a Coptic church beside still water" },
+    venue: { src: "/place/venue-church.jpg", alt: "Red-brick Coptic Orthodox church glowing in warm evening light" },
   },
 
   // "The signs of baptism" scroll story. Edit freely; `image` is an optional transparent PNG emblem
@@ -93,6 +93,10 @@ export const invitation = {
     waterPool: "/water/pool.png", // small still pool under the emblems and the dove
     waterLight: "/water/light.png", // seamless shimmering light drifting over the photo reflections
   },
+
+  // Background music, started when a guest taps "Open the invitation". The id is the part after
+  // "watch?v=" in a YouTube link. Leave "" for no music.
+  music: { youtubeId: "_pFI48QUJ1A" }, // knasty knasty hymn (koogi Taraneem)
 
   // Formatting for dates shown to guests.
   locale: "en-CA",

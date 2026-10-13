@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { animate, AnimatePresence, motion, useMotionTemplate, useMotionValue, useReducedMotion, useTransform } from "motion/react";
 import { createContext, useContext, useEffect, useState, type CSSProperties, type ReactNode } from "react";
+import { startMusic } from "./Music";
 
 const Opened = createContext(true);
 /** True once the intro has been opened; hero animations wait for it. */
@@ -40,6 +41,7 @@ export function Opening({ name, date, heading, dove, wide, tall, children }: Pro
 
   const open = () => {
     if (opened) return;
+    startMusic();
     setOpened(true);
     const end = Math.hypot(innerWidth, innerHeight) + 160;
     // The drop falls first (0.7 s), then the ripple opens.

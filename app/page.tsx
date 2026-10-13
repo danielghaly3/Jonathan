@@ -4,6 +4,7 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 import { MapPin } from "@phosphor-icons/react/dist/ssr";
 import { invitation as c } from "@/invitation.config";
+import { Music } from "@/components/Music";
 import { Opening } from "@/components/Opening";
 import { ReflectedPhoto } from "@/components/ReflectedPhoto";
 import { Sanctuary } from "@/components/Sanctuary";
@@ -34,6 +35,7 @@ export default function Home() {
   return (
     <Opening name={c.name} heading={c.heading} date={formatDate(e.date, c.locale)} dove={dove.front} wide={wide} tall={tall}>
       <Sanctuary wide={wide} tall={tall} dove={dove} />
+      <Music youtubeId={c.music.youtubeId} />
       <main className="overflow-x-clip text-center">
         {/* Hero: Jonathan in the arch, reflected in the water of the font */}
         <section className="flex min-h-[100dvh] flex-col items-center justify-center px-5 pt-16 pb-24">
