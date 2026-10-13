@@ -45,3 +45,4 @@ next-env.d.ts
 # RSVP replies contain guests' names and phone numbers
 /data
 .env*.local
+/Song.mp3
