@@ -13,10 +13,9 @@ const GLOWS = [
 const AT = [0, 0.12, 0.28, 0.44, 0.6, 0.76, 0.9, 1];
 const DX = [78, 18, 82, 14, 80, 20, 76, 50];
 const DY = [24, 34, 22, 36, 26, 34, 24, 30];
-// Phones: a long page and quick thumbs made the crossing dove dart about. There it glides calmly
-// along the right edge instead, drifting gently up and down.
-const DX_PHONE = [86, 82, 87, 83, 86, 82, 85, 84];
-const DY_PHONE = [16, 22, 18, 24, 19, 23, 17, 20];
+// Phones: the same crossings, a little inside the edges for the narrow screen.
+const DX_PHONE = [80, 20, 80, 20, 80, 20, 78, 50];
+const DY_PHONE = [18, 26, 16, 28, 18, 26, 18, 22];
 
 /**
  * The page's fixed backdrop: the sanctuary with its font, veiled in warm ivory so text stays readable,
@@ -30,8 +29,10 @@ export function Sanctuary({ wide, tall, dove }: { wide: string; tall: string; do
   const zoom = useTransform(scrollYProgress, [0, 1], [1, reduce || phone ? 1 : 1.08]);
   const warmth = useTransform(scrollYProgress, [0.3, 1], [0, 1]);
 
-  // A soft, slow follow: the dove trails the scroll rather than snapping to it.
-  const p = useSpring(scrollYProgress, { stiffness: 18, damping: 22, mass: 1.2 });
+  // A soft, slow follow: the dove trails the scroll rather than snapping to it. Phones scroll a long
+  // page with quick flicks, so there it follows more lazily and glides across instead of darting.
+  const desk = useSpring(scrollYProgress, { stiffness: 18, damping: 22, mass: 1.2 });
+  const calm = useSpring(scrollYProgress, { stiffness: 7, damping: 16, mass: 1.6 });
   useEffect(() => {
     const mq = matchMedia("(max-width: 640px)");
     const update = () => setPhone(mq.matches);
@@ -39,6 +40,7 @@ export function Sanctuary({ wide, tall, dove }: { wide: string; tall: string; do
     mq.addEventListener("change", update);
     return () => mq.removeEventListener("change", update);
   }, []);
+  const p = phone ? calm : desk;
   const x = useTransform(p, AT, phone ? DX_PHONE : DX);
   const y = useTransform(p, AT, phone ? DY_PHONE : DY);
   // Transforms, not left/top: moving with left/top re-lays-out the page on every frame.
