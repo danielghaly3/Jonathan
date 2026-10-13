@@ -15,8 +15,10 @@ const jost = Jost({ variable: "--font-jost", subsets: ["latin"], weight: ["400",
 const nameFont = Yellowtail({ variable: "--font-yellowtail", subsets: ["latin"], weight: "400" });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://jonathan-baptism.vercel.app"), // absolute link-preview URLs for WhatsApp/iMessage
   title: `${invitation.name} · Baptism`,
   description: `${invitation.heading}. ${invitation.message}`,
+  openGraph: { title: `You are invited to ${invitation.name}'s baptism`, description: invitation.message, type: "website" },
 };
 
 export const viewport: Viewport = {

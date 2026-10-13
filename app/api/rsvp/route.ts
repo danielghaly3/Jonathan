@@ -26,6 +26,11 @@ export async function POST(req: Request) {
   try {
     // The database is the record the admin page reads; save there first.
     if (dbConfigured) await saveRsvp(parsed.data);
+  } catch (err) {
+    console.error("RSVP not saved:", err);
+    return Response.json({ error: "We couldn't save your reply. Please try again in a moment." }, { status: 500 });
+  }
+  try {
     if (key && to) {
       const mail = rsvpEmail(parsed.data, receivedAt, invitation.name);
       const res = await fetch("https://api.resend.com/emails", {
@@ -44,8 +49,9 @@ export async function POST(req: Request) {
       await appendFile("data/rsvps.csv", csvRow([receivedAt, attending ? "attending" : "declined", name, phone, guests]));
     }
   } catch (err) {
-    console.error("RSVP not saved:", err);
-    return Response.json({ error: "We couldn't save your reply. Please try again in a moment." }, { status: 500 });
+    console.error("RSVP notification failed:", err);
+    // Once saved, a failed email must not make the guest retry (that would duplicate the reply).
+    if (!dbConfigured) return Response.json({ error: "We couldn't save your reply. Please try again in a moment." }, { status: 500 });
   }
   return Response.json({ ok: true });
 }
