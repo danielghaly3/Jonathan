@@ -90,7 +90,7 @@ export function Opening({ name, date, heading, dove, wide, tall, children }: Pro
               transition={{ duration: 0.8, ease: soft }}
             >
               {dove && (
-                <motion.div initial={{ opacity: 0, y: -90 }} animate={{ opacity: 1, y: 0 }} transition={t(at(0.8), 2.2)} className="w-24 sm:w-28">
+                <motion.div initial={{ opacity: 0, y: -90 }} animate={{ opacity: 1, y: 0 }} transition={t(at(0.8), 2.2)} className="w-24 sm:w-28 [@media(max-height:500px)]:hidden">
                   <Image src={dove} alt="" width={224} height={224} priority className="bob h-auto w-full drop-shadow-[0_10px_24px_rgb(168_132_63/0.45)]" />
                 </motion.div>
               )}
@@ -99,7 +99,7 @@ export function Opening({ name, date, heading, dove, wide, tall, children }: Pro
               </motion.p>
               {/* The name in brush script, revealed left to right as if written with a brush. */}
               <motion.p
-                className="mt-2 px-6 pb-1 font-name text-[clamp(4.6rem,19vw,8.4rem)] leading-[1.25] text-[#6b2a36] drop-shadow-[0_2px_18px_rgb(255_250_240/0.9)]"
+                className="mt-2 px-6 pb-1 font-name text-[clamp(4.6rem,19vw,8.4rem)] [@media(max-height:500px)]:text-[4.4rem] leading-[1.25] text-[#6b2a36] drop-shadow-[0_2px_18px_rgb(255_250_240/0.9)]"
                 initial={{ clipPath: "inset(-20% 100% -20% -5%)" }}
                 animate={{ clipPath: "inset(-20% -5% -20% -5%)" }}
                 transition={reduce ? { duration: 0 } : { duration: 2, delay: at(1.9), ease: [0.45, 0, 0.25, 1] }}
@@ -116,7 +116,7 @@ export function Opening({ name, date, heading, dove, wide, tall, children }: Pro
                 type="button"
                 onClick={open}
                 autoFocus
-                className="mt-10 inline-flex min-h-13 cursor-pointer items-center rounded-full bg-[#6b2a36] px-8 font-sans text-[0.76rem] font-medium tracking-[0.2em] text-[#faf6ee] uppercase shadow-[0_18px_40px_-16px_rgb(107_42_54/0.7)] transition hover:opacity-90 active:scale-[0.98]"
+                className="mt-10 inline-flex min-h-13 [@media(max-height:500px)]:mt-4 cursor-pointer items-center rounded-full bg-[#6b2a36] px-8 font-sans text-[0.76rem] font-medium tracking-[0.2em] text-[#faf6ee] uppercase shadow-[0_18px_40px_-16px_rgb(107_42_54/0.7)] transition hover:opacity-90 active:scale-[0.98]"
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={t(at(3.8), 1)}

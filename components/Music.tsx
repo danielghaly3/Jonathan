@@ -24,7 +24,7 @@ export function Music({ src }: { src: string }) {
           type="button"
           onClick={() => (playing ? (document.getElementById(ID) as HTMLAudioElement).pause() : startMusic())}
           aria-label={playing ? "Pause the music" : "Play the music"}
-          className="fixed right-4 bottom-4 z-40 grid size-11 cursor-pointer place-items-center rounded-full border border-gold/45 bg-panel/90 text-accent shadow-[0_10px_30px_-12px_rgb(107_42_54/0.5)] transition active:scale-95"
+          className="fixed top-[max(1rem,env(safe-area-inset-top))] right-4 z-40 grid size-11 cursor-pointer place-items-center rounded-full border border-gold/45 bg-panel/90 text-accent shadow-[0_10px_30px_-12px_rgb(107_42_54/0.5)] transition active:scale-95"
         >
           {playing ? <SpeakerHigh size={20} /> : <SpeakerSlash size={20} />}
         </button>
