@@ -12,7 +12,7 @@ type Props = {
   when: string;
   countdownTarget: string;
   icsHref: string;
-  icsName: string;
+  googleHref: string;
   dove: string;
 };
 
@@ -23,7 +23,7 @@ const WEEK = ["S", "M", "T", "W", "T", "F", "S"];
  * "Save the day" as an illuminated calendar page between two candles: the day glowing in a golden halo,
  * the month laid out beneath with the day ringed in gold, the countdown, and "Add to calendar".
  */
-export function SaveTheDay({ date, weekday, month, when, countdownTarget, icsHref, icsName, dove }: Props) {
+export function SaveTheDay({ date, weekday, month, when, countdownTarget, icsHref, googleHref, dove }: Props) {
   const reduce = useReducedMotion();
   const [y, m, d] = date.split("-").map(Number);
   const lead = new Date(Date.UTC(y, m - 1, 1)).getUTCDay();
@@ -113,10 +113,12 @@ export function SaveTheDay({ date, weekday, month, when, countdownTarget, icsHre
 
         <a
           href={icsHref}
-          download={icsName}
           className="mt-8 inline-flex min-h-12 items-center justify-center gap-2.5 rounded-full bg-accent px-7 font-sans text-[0.76rem] font-medium tracking-[0.18em] text-on-accent uppercase shadow-[0_14px_32px_-14px_rgb(107_42_54/0.7)] transition hover:opacity-90 active:translate-y-px"
         >
           <CalendarPlus size={18} weight="light" /> Add to calendar
+        </a>
+        <a href={googleHref} target="_blank" rel="noopener noreferrer" className="mt-3 block font-display text-base text-ink-soft italic underline decoration-gold/50 underline-offset-4">
+          or add to Google Calendar
         </a>
       </div>
 

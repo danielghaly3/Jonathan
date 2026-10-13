@@ -16,27 +16,48 @@ export const mapsHref = (query: string, override = "") =>
 // Floating local time (no Z): calendars place it at the event's local wall-clock time.
 const icsStamp = (d: Date) => d.toISOString().replace(/[-:]/g, "").slice(0, 15);
 
-export const icsHref = (e: { title: string; date: string; time: string; durationMinutes: number; location: string }) => {
-  // No time: an all-day entry (DTEND is the exclusive next day).
+export type CalEvent = { title: string; date: string; time: string; durationMinutes: number; location: string; details: string };
+
+// No time: an all-day entry (the end is the exclusive next day).
+const span = (e: CalEvent) => {
   const start = at(e.date, e.time || "00:00");
-  const end = e.time ? new Date(start.getTime() + e.durationMinutes * 60_000) : new Date(start.getTime() + 86_400_000);
-  const when = (d: Date) => (e.time ? `:${icsStamp(d)}` : `;VALUE=DATE:${icsStamp(d).slice(0, 8)}`);
-  const esc = (s: string) => s.replace(/([,;\\])/g, "\\$1");
-  const ics = [
+  const end = new Date(start.getTime() + (e.time ? e.durationMinutes * 60_000 : 86_400_000));
+  const f = (d: Date) => (e.time ? icsStamp(d) : icsStamp(d).slice(0, 8));
+  return { start, from: f(start), to: f(end) };
+};
+
+/** The .ics file served at /event.ics (Apple Calendar, Outlook, Samsung...). */
+export const icsText = (e: CalEvent) => {
+  const { start, from, to } = span(e);
+  const when = (v: string) => (e.time ? `:${v}` : `;VALUE=DATE:${v}`);
+  const esc = (s: string) => s.replace(/([,;\\])/g, "\\$1").replace(/\n/g, "\\n");
+  return [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
     "PRODID:-//Baptism Invitation//EN",
+    "CALSCALE:GREGORIAN",
+    "METHOD:PUBLISH",
     "BEGIN:VEVENT",
-    `UID:${icsStamp(start)}-baptism@invitation`,
+    `UID:${from}-baptism@invitation`,
     `DTSTAMP:${icsStamp(start)}Z`,
-    `DTSTART${when(start)}`,
-    `DTEND${when(end)}`,
+    `DTSTART${when(from)}`,
+    `DTEND${when(to)}`,
     `SUMMARY:${esc(e.title)}`,
     `LOCATION:${esc(e.location)}`,
+    `DESCRIPTION:${esc(e.details)}`,
     "END:VEVENT",
     "END:VCALENDAR",
-  ].join("\r\n");
-  return `data:text/calendar;charset=utf-8,${encodeURIComponent(ics)}`;
+    "",
+  ]
+    .map((l) => l.match(/.{1,74}/g)?.join("\r\n ") ?? l) // fold long lines (RFC 5545) for strict calendar apps
+    .join("\r\n");
+};
+
+/** Google Calendar's "add event" page, prefilled (Android / Gmail users). */
+export const googleCalendarHref = (e: CalEvent) => {
+  const { from, to } = span(e);
+  const q = new URLSearchParams({ action: "TEMPLATE", text: e.title, dates: `${from}/${to}`, location: e.location, details: e.details });
+  return `https://calendar.google.com/calendar/render?${q}`;
 };
 
 

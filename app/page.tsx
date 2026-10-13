@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import { MapPin } from "@phosphor-icons/react/dist/ssr";
 import { invitation as c } from "@/invitation.config";
 import { Music } from "@/components/Music";
+import { calendarEvent } from "@/lib/calendar";
 import { Opening } from "@/components/Opening";
 import { ReflectedPhoto } from "@/components/ReflectedPhoto";
 import { Sanctuary } from "@/components/Sanctuary";
@@ -14,7 +15,7 @@ import { SaveTheDay } from "@/components/SaveTheDay";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Signs } from "@/components/Signs";
 import { Pool, WaveLine } from "@/components/Water";
-import { formatDate, formatDayMonth, formatMonth, formatTime, formatWeekday, icsHref, mapsHref, year } from "@/lib/format";
+import { formatDate, formatDayMonth, formatMonth, formatTime, formatWeekday, googleCalendarHref, mapsHref, year } from "@/lib/format";
 
 // Artwork is optional: use a file only if it is actually in /public.
 const asset = (p: string) => (p && existsSync(join(process.cwd(), "public", p)) ? p : "");
@@ -22,7 +23,6 @@ const asset = (p: string) => (p && existsSync(join(process.cwd(), "public", p)) 
 export default function Home() {
   const { event: e, rsvp, photos, scripture } = c;
   const when = e.time ? formatTime(e.date, e.time, c.locale) : e.timeNote;
-  const location = `${e.venue}, ${e.venueDetail}, ${e.address}`;
   const signs = c.signs.map((s) => ({ ...s, image: asset(s.image) }));
   const dove = { front: asset(c.art.dove), flyUp: asset(c.art.flyUp), flyDown: asset(c.art.flyDown) };
   const wide = asset(c.art.sanctuaryWide);
@@ -118,8 +118,8 @@ export default function Home() {
               month={formatMonth(e.date, c.locale)}
               when={when}
               countdownTarget={`${e.date}T${e.time || "00:00"}:00${e.utcOffset}`}
-              icsHref={icsHref({ title: `${c.name}'s Baptism`, date: e.date, time: e.time, durationMinutes: e.durationMinutes, location })}
-              icsName={`${c.name.toLowerCase()}-baptism.ics`}
+              icsHref="/event.ics"
+              googleHref={googleCalendarHref(calendarEvent)}
               dove={dove.front}
             />
           </div>
