@@ -35,7 +35,7 @@ export default function Home() {
   return (
     <Opening name={c.name} heading={c.heading} date={formatDate(e.date, c.locale)} dove={dove.front} wide={wide} tall={tall}>
       <Sanctuary wide={wide} tall={tall} dove={dove} />
-      <Music youtubeId={c.music.youtubeId} />
+      <Music src={asset(c.music.src)} />
       <main className="overflow-x-clip text-center">
         {/* Hero: Jonathan in the arch, reflected in the water of the font */}
         <section className="flex min-h-[100dvh] flex-col items-center justify-center px-5 pt-16 pb-24">

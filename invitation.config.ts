@@ -94,9 +94,9 @@ export const invitation = {
     waterLight: "/water/light.png", // seamless shimmering light drifting over the photo reflections
   },
 
-  // Background music, started when a guest taps "Open the invitation". The id is the part after
-  // "watch?v=" in a YouTube link. Leave "" for no music.
-  music: { youtubeId: "_pFI48QUJ1A" }, // knasty knasty hymn (koogi Taraneem)
+  // Background music, started when a guest taps "Open the invitation". An audio file in /public
+  // (.m4a or .mp3); leave "" for no music.
+  music: { src: "/music/hymn.m4a" }, // knasty knasty hymn (koogi Taraneem)
 
   // Formatting for dates shown to guests.
   locale: "en-CA",
