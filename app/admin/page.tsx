@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { dbConfigured, listRsvps } from "@/lib/db";
 import { AutoRefresh } from "./AutoRefresh";
+import { PasswordInput } from "./PasswordInput";
 
 export const metadata: Metadata = { title: "Replies · Admin", robots: { index: false, follow: false } };
 
@@ -39,7 +40,7 @@ async function Admin({ searchParams }: { searchParams: Promise<{ error?: string 
       <form action={login} className="glass mx-auto mt-24 grid max-w-sm gap-4 rounded-[32px] p-8 text-left">
         <h1 className="font-display text-3xl">Replies</h1>
         <label htmlFor="password" className="label text-blue-ink">Password</label>
-        <input id="password" name="password" type="password" required autoFocus autoComplete="current-password" className="min-h-12 rounded-2xl border border-gold/45 bg-[#fffaf0]/80 px-4 font-sans" />
+        <PasswordInput />
         {error && <p className="font-sans text-sm text-accent">That password is not right.</p>}
         <button className="min-h-12 cursor-pointer rounded-full bg-accent font-sans text-sm tracking-[0.18em] text-on-accent uppercase">Sign in</button>
       </form>
