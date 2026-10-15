@@ -120,6 +120,7 @@ export default function Home() {
               when={when}
               liturgy={liturgy}
               whenNote={e.time ? e.timeNote : ""}
+              venue={e.venue}
               countdownTarget={`${e.date}T${e.liturgy.time || e.time || "00:00"}:00${e.utcOffset}`}
               icsHref="/event.ics"
               googleHref={googleCalendarHref(calendarEvent)}

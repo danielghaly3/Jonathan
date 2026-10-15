@@ -13,6 +13,7 @@ type Props = {
   /** Optional Divine Liturgy before the celebration (already formatted time). */
   liturgy?: { time: string; church: string };
   whenNote?: string;
+  venue?: string;
   countdownTarget: string;
   icsHref: string;
   googleHref: string;
@@ -26,7 +27,7 @@ const WEEK = ["S", "M", "T", "W", "T", "F", "S"];
  * "Save the day" as an illuminated calendar page between two candles: the day glowing in a golden halo,
  * the month laid out beneath with the day ringed in gold, the countdown, and "Add to calendar".
  */
-export function SaveTheDay({ date, weekday, month, when, liturgy, whenNote, countdownTarget, icsHref, googleHref, dove }: Props) {
+export function SaveTheDay({ date, weekday, month, when, liturgy, whenNote, venue, countdownTarget, icsHref, googleHref, dove }: Props) {
   const reduce = useReducedMotion();
   const [y, m, d] = date.split("-").map(Number);
   const lead = new Date(Date.UTC(y, m - 1, 1)).getUTCDay();
@@ -82,9 +83,9 @@ export function SaveTheDay({ date, weekday, month, when, liturgy, whenNote, coun
             <ol className="relative mx-auto mt-6 grid w-fit max-w-full gap-7 text-left">
               <span aria-hidden className="absolute top-6 bottom-6 left-6 w-px -translate-x-1/2 bg-gradient-to-b from-gold/70 via-gold/35 to-accent/60" />
               {[
-                { time: liturgy.time, title: "Divine Liturgy", note: liturgy.church, Icon: Church, lit: false },
-                { time: when, title: "Celebration", note: whenNote, Icon: Sparkle, lit: true },
-              ].map(({ time, title, note, Icon, lit }, i) => (
+                { time: liturgy.time, title: "Divine Liturgy", notes: [liturgy.church], Icon: Church, lit: false },
+                { time: when, title: "Celebration", notes: [venue, whenNote], Icon: Sparkle, lit: true },
+              ].map(({ time, title, notes, Icon, lit }, i) => (
                 <motion.li
                   key={title}
                   className="relative grid grid-cols-[3rem_1fr] items-center gap-4"
@@ -101,7 +102,11 @@ export function SaveTheDay({ date, weekday, month, when, liturgy, whenNote, coun
                   <div>
                     <p className="font-display text-[2rem] leading-none text-accent lining-nums tabular-nums">{time}</p>
                     <p className="label mt-2 text-gold-ink">{title}</p>
-                    {note && <p className="mt-1 font-display text-[1.05rem] leading-snug text-ink-soft italic">{note}</p>}
+                    {notes.filter(Boolean).map((n, k) => (
+                      <p key={k} className={`font-display text-[1.05rem] leading-snug italic ${k ? "mt-0.5 text-ink-soft/80" : "mt-1 text-ink-soft"}`}>
+                        {n}
+                      </p>
+                    ))}
                   </div>
                 </motion.li>
               ))}
@@ -164,7 +169,7 @@ export function SaveTheDay({ date, weekday, month, when, liturgy, whenNote, coun
       </div>
 
       <figcaption className="sr-only">
-        {weekday}, {month} {d}, {y}. {liturgy?.time ? `Divine Liturgy at ${liturgy.time}, ${liturgy.church}. Celebration at ${when}${whenNote ? `, ${whenNote.replace(/^F/, "f")}` : ""}` : when}.
+        {weekday}, {month} {d}, {y}. {liturgy?.time ? `Divine Liturgy at ${liturgy.time}, ${liturgy.church}. Celebration at ${when}${venue ? `, ${venue}` : ""}${whenNote ? `, ${whenNote.replace(/^F/, "f")}` : ""}` : when}.
       </figcaption>
     </figure>
   );
