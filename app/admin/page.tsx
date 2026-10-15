@@ -3,9 +3,10 @@ import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
-import { dbConfigured, listRsvps } from "@/lib/db";
+import { dbConfigured, deleteRsvp, listRsvps } from "@/lib/db";
 import { AutoRefresh } from "./AutoRefresh";
 import { PasswordInput } from "./PasswordInput";
+import { RemoveButton } from "./RemoveButton";
 
 export const metadata: Metadata = { title: "Replies · Admin", robots: { index: false, follow: false } };
 
@@ -29,10 +30,21 @@ async function logout() {
   redirect("/admin");
 }
 
+const isAdmin = async () => Boolean(process.env.ADMIN_PASSWORD) && same((await cookies()).get(COOKIE)?.value ?? "", token());
+
+async function remove(form: FormData) {
+  "use server";
+  // Server actions are public endpoints: re-check the sign-in before deleting.
+  if (!(await isAdmin())) redirect("/admin");
+  const id = Number(form.get("id"));
+  if (Number.isInteger(id) && id > 0) await deleteRsvp(id);
+  redirect("/admin");
+}
+
 const when = (iso: string) => new Intl.DateTimeFormat("en-CA", { dateStyle: "medium", timeStyle: "short", timeZone: "America/Toronto" }).format(new Date(iso));
 
 async function Admin({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
-  const authed = same((await cookies()).get(COOKIE)?.value ?? "", token()) && Boolean(process.env.ADMIN_PASSWORD);
+  const authed = await isAdmin();
   const { error } = await searchParams;
 
   if (!authed)
@@ -79,11 +91,11 @@ async function Admin({ searchParams }: { searchParams: Promise<{ error?: string 
       <div className="glass mt-6 overflow-x-auto rounded-3xl">
         <table className="w-full min-w-[560px] text-left font-sans text-sm">
           <thead className="label text-gold-ink">
-            <tr>{["Name", "Answer", "Guests", "Phone", "Received"].map((h) => <th key={h} className="px-4 py-3">{h}</th>)}</tr>
+            <tr>{["Name", "Answer", "Guests", "Phone", "Received"].map((h) => <th key={h} className="px-4 py-3">{h}</th>)}<th className="w-12"><span className="sr-only">Remove</span></th></tr>
           </thead>
           <tbody>
             {rows.length === 0 && (
-              <tr><td colSpan={5} className="px-4 py-8 text-center text-ink-soft">No replies yet.</td></tr>
+              <tr><td colSpan={6} className="px-4 py-8 text-center text-ink-soft">No replies yet.</td></tr>
             )}
             {rows.map((r) => (
               <tr key={r.id} className="border-t border-gold/25">
@@ -92,6 +104,12 @@ async function Admin({ searchParams }: { searchParams: Promise<{ error?: string 
                 <td className="px-4 py-3">{r.attending ? r.guests : "None"}</td>
                 <td className="px-4 py-3"><a href={`tel:${r.phone.replace(/[^\d+]/g, "")}`} className="text-accent">{r.phone}</a></td>
                 <td className="px-4 py-3 text-ink-soft">{when(r.created_at)}</td>
+                <td className="py-1 pr-2">
+                  <form action={remove}>
+                    <input type="hidden" name="id" value={r.id} />
+                    <RemoveButton name={r.name} />
+                  </form>
+                </td>
               </tr>
             ))}
           </tbody>

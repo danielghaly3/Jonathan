@@ -19,3 +19,8 @@ export async function listRsvps(): Promise<StoredRsvp[]> {
   if (!res.ok) throw new Error(`Supabase responded ${res.status}`);
   return res.json();
 }
+
+export async function deleteRsvp(id: number) {
+  const res = await fetch(`${url}/rest/v1/rsvps?id=eq.${id}`, { method: "DELETE", headers: headers() });
+  if (!res.ok) throw new Error(`Supabase responded ${res.status}`);
+}
