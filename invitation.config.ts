@@ -24,8 +24,10 @@ export const invitation = {
 
   event: {
     date: "2026-11-14", // YYYY-MM-DD
-    time: "", // 24h HH:MM, or "" when the time is given by `timeNote`
+    time: "11:00", // 24h HH:MM: the celebration start (countdown, calendar). "" when given only by `timeNote`
     timeNote: "Following the Divine Liturgy",
+    // The Divine Liturgy before the celebration. Set `time: ""` to hide it everywhere.
+    liturgy: { time: "07:30", church: "Church of Virgin Mary & St. Athanasius" },
     durationMinutes: 120, // calendar length when `time` is set; otherwise an all-day entry
     utcOffset: "-05:00", // venue timezone offset on the day (Toronto, EST), used by the countdown
     venue: "The Trinity Hall",
@@ -99,7 +101,7 @@ export const invitation = {
   music: { src: "/music/hymn.m4a" }, // knasty knasty hymn (koogi Taraneem)
 
   // Formatting for dates shown to guests.
-  locale: "en-CA",
+  locale: "en-US", // "7:30 AM" style times
 } as const;
 
 export type Photo = { src: string; alt: string };

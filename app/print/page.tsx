@@ -31,7 +31,14 @@ export default function PrintCard() {
         <ArchPhoto photo={c.photos.main} ratio="4:5" shape="arch" sizes="480px" className="mt-7 w-[128px] shrink-0" />
 
         <p className="mt-6 font-display text-[17px] text-gold-ink">{formatDate(e.date, c.locale)}</p>
-        <p className="mt-0.5 font-display text-[14px] text-ink-soft italic">{e.time ? formatTime(e.date, e.time, c.locale) : e.timeNote}</p>
+        {e.liturgy.time && (
+          <p className="mt-0.5 font-display text-[14px] text-ink-soft italic">
+            Divine Liturgy {formatTime(e.date, e.liturgy.time, c.locale)}, {e.liturgy.church}
+          </p>
+        )}
+        <p className="mt-0.5 font-display text-[14px] text-ink-soft italic">
+          {e.time ? `${e.liturgy.time ? "Celebration " : ""}${formatTime(e.date, e.time, c.locale)}${e.liturgy.time ? `, ${e.timeNote.replace(/^F/, "f")}` : ""}` : e.timeNote}
+        </p>
         <p className="mt-1.5 font-display text-[15px]">
           {e.venue}, {e.venueDetail}
         </p>

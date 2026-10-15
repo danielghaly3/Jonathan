@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { CalendarPlus } from "@phosphor-icons/react";
+import { CalendarPlus, Church, Sparkle } from "@phosphor-icons/react";
 import { motion, useReducedMotion } from "motion/react";
 import { Candle } from "./Water";
 import { Countdown } from "./Countdown";
@@ -10,6 +10,9 @@ type Props = {
   weekday: string;
   month: string;
   when: string;
+  /** Optional Divine Liturgy before the celebration (already formatted time). */
+  liturgy?: { time: string; church: string };
+  whenNote?: string;
   countdownTarget: string;
   icsHref: string;
   googleHref: string;
@@ -23,7 +26,7 @@ const WEEK = ["S", "M", "T", "W", "T", "F", "S"];
  * "Save the day" as an illuminated calendar page between two candles: the day glowing in a golden halo,
  * the month laid out beneath with the day ringed in gold, the countdown, and "Add to calendar".
  */
-export function SaveTheDay({ date, weekday, month, when, countdownTarget, icsHref, googleHref, dove }: Props) {
+export function SaveTheDay({ date, weekday, month, when, liturgy, whenNote, countdownTarget, icsHref, googleHref, dove }: Props) {
   const reduce = useReducedMotion();
   const [y, m, d] = date.split("-").map(Number);
   const lead = new Date(Date.UTC(y, m - 1, 1)).getUTCDay();
@@ -68,7 +71,45 @@ export function SaveTheDay({ date, weekday, month, when, countdownTarget, icsHre
         <p className="label text-gold-ink" style={{ letterSpacing: "0.5em", paddingLeft: "0.5em" }}>
           {y}
         </p>
-        <p className="mt-5 font-display text-[1.35rem] text-ink italic">{when}</p>
+        {liturgy?.time ? (
+          // The day's schedule: a gold thread from the Liturgy to the celebration that follows it.
+          <div className="mx-auto mt-8 max-w-[19rem] border-t border-gold/35 pt-6">
+            <div className="flex items-center justify-center gap-3">
+              <span className="h-px w-5 bg-gradient-to-r from-transparent to-gold sm:w-8" />
+              <h3 className="label whitespace-nowrap text-gold-ink">Our Day&apos;s Schedule</h3>
+              <span className="h-px w-5 bg-gradient-to-l from-transparent to-gold sm:w-8" />
+            </div>
+            <ol className="relative mx-auto mt-6 grid w-fit max-w-full gap-7 text-left">
+              <span aria-hidden className="absolute top-6 bottom-6 left-6 w-px -translate-x-1/2 bg-gradient-to-b from-gold/70 via-gold/35 to-accent/60" />
+              {[
+                { time: liturgy.time, title: "Divine Liturgy", note: liturgy.church, Icon: Church, lit: false },
+                { time: when, title: "Celebration", note: whenNote, Icon: Sparkle, lit: true },
+              ].map(({ time, title, note, Icon, lit }, i) => (
+                <motion.li
+                  key={title}
+                  className="relative grid grid-cols-[3rem_1fr] items-center gap-4"
+                  initial={{ opacity: 0, y: 14 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={view}
+                  transition={t(0.9, 0.2 + i * 0.3)}
+                >
+                  <span
+                    className={`relative grid size-12 place-items-center rounded-full border ${lit ? "border-accent bg-accent text-on-accent shadow-[0_10px_24px_-10px_rgb(107_42_54/0.7)]" : "border-gold/60 bg-panel text-gold-ink"}`}
+                  >
+                    <Icon size={22} weight="light" />
+                  </span>
+                  <div>
+                    <p className="font-display text-[2rem] leading-none text-accent lining-nums tabular-nums">{time}</p>
+                    <p className="label mt-2 text-gold-ink">{title}</p>
+                    {note && <p className="mt-1 font-display text-[1.05rem] leading-snug text-ink-soft italic">{note}</p>}
+                  </div>
+                </motion.li>
+              ))}
+            </ol>
+          </div>
+        ) : (
+          <p className="mt-5 font-display text-[1.35rem] text-ink italic">{when}</p>
+        )}
 
         {/* The month, with the day ringed in gold */}
         <div className="mx-auto mt-8 max-w-[17rem] border-t border-gold/35 pt-6" aria-hidden>
@@ -123,7 +164,7 @@ export function SaveTheDay({ date, weekday, month, when, countdownTarget, icsHre
       </div>
 
       <figcaption className="sr-only">
-        {weekday}, {month} {d}, {y}. {when}.
+        {weekday}, {month} {d}, {y}. {liturgy?.time ? `Divine Liturgy at ${liturgy.time}, ${liturgy.church}. Celebration at ${when}${whenNote ? `, ${whenNote.replace(/^F/, "f")}` : ""}` : when}.
       </figcaption>
     </figure>
   );

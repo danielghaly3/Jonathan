@@ -23,6 +23,7 @@ const asset = (p: string) => (p && existsSync(join(process.cwd(), "public", p)) 
 export default function Home() {
   const { event: e, rsvp, photos, scripture } = c;
   const when = e.time ? formatTime(e.date, e.time, c.locale) : e.timeNote;
+  const liturgy = e.liturgy.time ? { time: formatTime(e.date, e.liturgy.time, c.locale), church: e.liturgy.church } : undefined;
   const signs = c.signs.map((s) => ({ ...s, image: asset(s.image) }));
   const dove = { front: asset(c.art.dove), flyUp: asset(c.art.flyUp), flyDown: asset(c.art.flyDown) };
   const wide = asset(c.art.sanctuaryWide);
@@ -117,7 +118,9 @@ export default function Home() {
               weekday={formatWeekday(e.date, c.locale)}
               month={formatMonth(e.date, c.locale)}
               when={when}
-              countdownTarget={`${e.date}T${e.time || "00:00"}:00${e.utcOffset}`}
+              liturgy={liturgy}
+              whenNote={e.time ? e.timeNote : ""}
+              countdownTarget={`${e.date}T${e.liturgy.time || e.time || "00:00"}:00${e.utcOffset}`}
               icsHref="/event.ics"
               googleHref={googleCalendarHref(calendarEvent)}
               dove={dove.front}
