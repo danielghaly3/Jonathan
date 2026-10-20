@@ -28,7 +28,7 @@ export default function PrintCard() {
           {c.name}
         </h1>
 
-        <ArchPhoto photo={c.photos.main} ratio="4:5" shape="arch" sizes="480px" className="mt-7 w-[128px] shrink-0" />
+        <ArchPhoto photo={c.photos.main} ratio="4:5" shape="arch" sizes="480px" className="mt-5 w-[104px] shrink-0" />
 
         <p className="mt-6 font-display text-[17px] text-gold-ink">{formatDate(e.date, c.locale)}</p>
         {e.liturgy.time && (

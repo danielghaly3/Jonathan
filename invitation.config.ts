@@ -42,7 +42,7 @@ export const invitation = {
   },
 
   photos: {
-    main: { src: "/photos/jonathan-portrait.png", alt: "Jonathan looking upward in soft sanctuary light" }, // 4:5, hero arch
+    main: { src: "/photos/jonathan-main.jpg", alt: "Jonathan in a soft grey hat and jacket, lying beside his teddy bear" }, // 4:5, hero arch
     family: { src: "/photos/jonathan-family.png", alt: "Jonathan cradled by his parents" }, // 3:4, the one feature photo
     // 4:3, shown in "Where we gather". Use a real photo of the hall if you have one;
     // otherwise CODEX_PLACE_ART.md generates an artistic illustration at this path. Hidden while missing.
